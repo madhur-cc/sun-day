@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { SunbathingSuggestions } from './sunbathing-suggestions'
 
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHERMAP_API_KEY
 
@@ -99,55 +100,60 @@ export default function SunTanApp() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">Sun Tan App</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="location">Location</Label>
-          <div className="flex space-x-2">
-            <Input
-              id="location"
-              placeholder="Enter city name"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-            <Button onClick={fetchWeatherData}>
-              <MapPin className="w-4 h-4 mr-2" />
-              Set
-            </Button>
+    <div className="space-y-4">
+      <Card className="w-full max-w-md mx-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center">Sun Tan App</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="location">Location</Label>
+            <div className="flex space-x-2">
+              <Input
+                id="location"
+                placeholder="Enter city name"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+              <Button onClick={fetchWeatherData}>
+                <MapPin className="w-4 h-4 mr-2" />
+                Set
+              </Button>
+            </div>
           </div>
-        </div>
-        {weatherData && (
-          <>
-            <div className="flex justify-center items-center space-x-2">
-              <Sun className="w-8 h-8 text-yellow-500" />
-              <span className="text-xl font-semibold">Current UV Index: {uvIndex.toFixed(1)}</span>
-            </div>
-            <div className="text-center">
-              <p className="font-medium">Best time for sunbathing today: {bestTime}</p>
-            </div>
-          </>
-        )}
-        <div className="text-4xl font-bold text-center" aria-live="polite">
-          {formatTime(time)}
-        </div>
-        <Progress value={tanProgress} className="w-full" />
-        <div className="text-center text-sm text-muted-foreground">
-          Tan Progress: {tanProgress.toFixed(1)}%
-        </div>
-      </CardContent>
-      <CardFooter className="flex justify-center space-x-2">
-        <Button onClick={toggleTimer} variant="outline">
-          {isActive ? <Pause className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
-          {isActive ? 'Pause' : 'Start'}
-        </Button>
-        <Button onClick={resetTimer} variant="outline">
-          <RotateCcw className="mr-2 h-4 w-4" />
-          Reset
-        </Button>
-      </CardFooter>
-    </Card>
+          {weatherData && (
+            <>
+              <div className="flex justify-center items-center space-x-2">
+                <Sun className="w-8 h-8 text-yellow-500" />
+                <span className="text-xl font-semibold">Current UV Index: {uvIndex.toFixed(1)}</span>
+              </div>
+              <div className="text-center">
+                <p className="font-medium">Best time for sunbathing today: {bestTime}</p>
+              </div>
+            </>
+          )}
+          <div className="text-4xl font-bold text-center" aria-live="polite">
+            {formatTime(time)}
+          </div>
+          <Progress value={tanProgress} className="w-full" />
+          <div className="text-center text-sm text-muted-foreground">
+            Tan Progress: {tanProgress.toFixed(1)}%
+          </div>
+        </CardContent>
+        <CardFooter className="flex justify-center space-x-2">
+          <Button onClick={toggleTimer} variant="outline">
+            {isActive ? <Pause className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
+            {isActive ? 'Pause' : 'Start'}
+          </Button>
+          <Button onClick={resetTimer} variant="outline">
+            <RotateCcw className="mr-2 h-4 w-4" />
+            Reset
+          </Button>
+        </CardFooter>
+      </Card>
+      {location && API_KEY && (
+        <SunbathingSuggestions location={location} apiKey={API_KEY} />
+      )}
+    </div>
   )
 }
