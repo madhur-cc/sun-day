@@ -1,4 +1,4 @@
-import SunTanApp from '@/components/sun-tan-app'
+import SunTanApp from '../components/sun-tan-app'
 
 export default function Home() {
   return (
